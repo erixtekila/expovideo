@@ -1,12 +1,15 @@
-import { StyleSheet, View, Button, View } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useEffect, useRef, useState } from 'react';
 
-export default function App() {
+export default ()=>
+{
   const ref = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const player = useVideoPlayer(videoSource, player => {
+  const [isPiP, setPiP] = useState(true);
+  const player = useVideoPlayer( 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', player => {
     player.loop = true;
+    player.staysActiveInBackground = true;
     player.play();
   });
 
@@ -20,6 +23,18 @@ export default function App() {
     };
   }, [player]);
 
+  // unmount
+  useEffect
+  (
+    _ =>
+    {
+      return _ =>
+      {
+        console.log( ref.current );// null
+      }
+    },[]
+  );
+
   return (
     <View style={styles.contentContainer}>
       <VideoView
@@ -28,6 +43,7 @@ export default function App() {
         player={player}
         allowsFullscreen
         allowsPictureInPicture
+        startsPictureInPictureAutomatically
       />
       <View style={styles.controlsContainer}>
         <Button
@@ -41,10 +57,23 @@ export default function App() {
             setIsPlaying(!isPlaying);
           }}
         />
+        <Button
+          title={isPiP ? 'PiP mode' : 'PiP disabled'}
+          onPress={
+            _ => {
+            if (isPiP) 
+            {
+              ref.current.startPictureInPicture();
+            } else {
+              ref.current.stopPictureInPicture();
+            }
+            setPiP( ! isPiP );
+          }}
+        />
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   contentContainer: {
