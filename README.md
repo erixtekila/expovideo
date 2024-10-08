@@ -12,7 +12,7 @@ https://github.com/user-attachments/assets/39f6fcf5-345a-4ddb-a48f-24a67f803190
 
 
 
-## Issue https://github.com/expo/expo/pull/31901
+## Issue https://github.com/expo/expo/issues/30937
 **Fixed by https://github.com/expo/expo/pull/31901**
 When using `expo` [`video`](https://docs.expo.dev/versions/latest/sdk/video/) if one enable the `startsPictureInPictureAutomatically` property, then PiP will be used for the whole app. Eventhough the video player has been unmounted. See attached screenshot :
 
